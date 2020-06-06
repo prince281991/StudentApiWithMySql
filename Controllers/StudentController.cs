@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentApiWithMySql.Repositories;
 using StudentApiWithMySql.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace StudentApiWithMySql.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors()]
     public class StudentController : ControllerBase
     {
         private readonly IStudentRepository _repository;
@@ -59,9 +61,9 @@ namespace StudentApiWithMySql.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutStudent(Student student)
+        public async Task<IActionResult> PutStudent(int Id,Student student)
         {
-            var stydentexists = _repository.StudentExists(student.Id);
+            var stydentexists = _repository.StudentExists(Id);
             if (stydentexists != null)
             {
                 var newStudent = await _repository.PutStudent(student);

@@ -39,6 +39,8 @@ namespace StudentApiWithMySql
             });
             // Configuration For Services Registered
             services.AddTransient<IStudentRepository, StudentRepository>();
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +59,13 @@ namespace StudentApiWithMySql
 
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("doc/swagger.json", "Student Api Service");
+            });
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
             });
 
             app.UseAuthorization();
