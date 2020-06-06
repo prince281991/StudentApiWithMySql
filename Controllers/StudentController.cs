@@ -30,20 +30,62 @@ namespace StudentApiWithMySql.Controllers
             }
         }
 
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetStudent(int Id)
+        {
+            var student = await _repository.GetStudent(Id);
+            if (student != null)
+            {
+                return Ok(student);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostStudent(Student student)
         {
             if (ModelState.IsValid)
             {
                var newStudent= await _repository.PostStudent(student);
-                return CreatedAtRoute("Get", new { newStudent.Id }, newStudent);
+                return Ok(student); //CreatedAtRoute("GetStudent", new { newStudent.Id }, newStudent);
             }
             else
             {
                 return BadRequest();
             }
+        }
 
-            
+        [HttpPut]
+        public async Task<IActionResult> PutStudent(Student student)
+        {
+            var stydentexists = _repository.StudentExists(student.Id);
+            if (stydentexists != null)
+            {
+                var newStudent = await _repository.PutStudent(student);
+                return Ok(newStudent); //CreatedAtRoute("GetStudent", new { newStudent.Id }, newStudent);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteStudent(int Id)
+        {
+            var stydentexists = _repository.StudentExists(Id);
+            if (stydentexists!=null)
+            {
+                 await _repository.DeleteStudent(Id);
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

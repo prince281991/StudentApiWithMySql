@@ -9,7 +9,7 @@ namespace StudentApiWithMySql.Context
 {
     public class StudentContext:DbContext
     {
-        public StudentContext(DbContextOptions<StudentContext> options) : base()
+        public StudentContext(DbContextOptions<StudentContext> options) : base(options)
         {
 
         }
